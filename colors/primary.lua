@@ -1,1 +1,1 @@
-require('primary').load()
+require("primary").load()
