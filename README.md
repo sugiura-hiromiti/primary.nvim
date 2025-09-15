@@ -1,40 +1,56 @@
 ## Primary
-##### A Vim color scheme based on Google's colors
-  
+##### A Neovim colorscheme based on Google's colors
+
 #### Screenshots
 
 ![Light mode](/screenshots/light.png?raw=true)
 ![Dark mode](/screenshots/dark.png?raw=true)
 
+**Note**
+- Requires true color support. When available, the scheme enables `termguicolors` automatically.
+- Pure Lua entrypoint via `colors/primary.lua` calling `require('primary').load()`.
 
-#### Installation
+#### Installation (lazy.nvim)
 
-Install using your favorite plugin manager.
+Example lazy.nvim spec:
+```lua
+{
+  'google/vim-colorscheme-primary',
+  name = 'primary',
+  lazy = false,          -- load during startup
+  priority = 1000,       -- load before other UI plugins
+  config = function()
+    -- Optional: set options before loading
+    -- vim.g.colorscheme_primary_disable_italic = true
+    -- vim.g.colorscheme_primary_enable_transparent_bg = true
 
-To install using Vundle, add the following to your vimrc:
-```vim
-Plugin 'google/vim-colorscheme-primary'
+    -- Load the colorscheme (pure-Lua entrypoint)
+    require('primary').load()
+  end,
+}
 ```
 
-To set Primary as your default color scheme, add these lines to your .vimrc:
-```vim
-syntax enable
-set t_Co=256
-set background=light
-colorscheme primary
-```
-For dark mode, use `set background=dark` instead:
-```vim
-syntax enable
-set t_Co=256
-set background=dark
-colorscheme primary
-```
+You can also use `:colorscheme primary` directly; the Lua entrypoint is registered at `colors/primary.lua`.
 
-See doc/colorscheme-primary.txt for detailed instructions and additional
-options.
+#### Options
+- `vim.g.colorscheme_primary_disable_italic = true|false`
+  - Default: `false` (italics enabled for comments/strings where defined)
+- `vim.g.colorscheme_primary_enable_transparent_bg = true|false`
+  - Default: `false` (opaque background). When `true`, key UI groups are set to `bg = "NONE"`.
 
-#### Happy Google-inspired coding!  
+#### Background modes
+- Dark mode: `:set background=dark`
+- Light mode: `:set background=light`
 
-*Disclaimer: This is not an official Google product (experimental or otherwise),
-it is just code that happens to be owned by Google.*
+You can set this in your config as `vim.o.background = 'dark'` or `'light'`.
+
+#### True color behavior
+- If Neovim reports `has('termguicolors') == 1` and `vim.o.termguicolors` is not yet enabled, the scheme sets `vim.o.termguicolors = true` during `require('primary').load()`.
+
+#### Notes for maintainers
+- Group definitions in `lua/primary/groups.lua` intentionally mirror the original VimScript scheme (`colors/primary.vim`) to preserve visual parity and make diffs straightforward.
+- Modern groups (LSP, Treesitter, Telescope, GitSigns, etc.) link to legacy groups that best match the original style.
+
+#### Happy Google-inspired coding!
+
+Disclaimer: This is not an official Google product (experimental or otherwise), it is just code that happens to be owned by Google.
