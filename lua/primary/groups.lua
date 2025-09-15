@@ -10,7 +10,7 @@ local M = {}
 -- Build highlight groups for dark background
 function M.build_dark(palette, cfg)
   local p = palette
-  local italic = not cfg.disable_italic and 'italic' or nil
+  local italic = not cfg.disable_italic and true or false
   
   -- Based on "dark background" branch in colors/primary.vim
   local groups = {
@@ -136,7 +136,7 @@ end
 -- Build highlight groups for light background
 function M.build_light(palette, cfg)
   local p = palette
-  local italic = not cfg.disable_italic and 'italic' or nil
+  local italic = not cfg.disable_italic and true or false
   
   -- Based on "light background" branch in colors/primary.vim
   local groups = {
